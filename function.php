@@ -243,11 +243,11 @@ if (isset($_POST['hapusprodukpesanan'])){
    $hapus = mysqli_query($c, "DELETE FROM detailpesanan WHERE idproduk= '$idpr' AND iddetailpesanan = '$idp'"); //hapus
 
    if ($updatestock&&$hapus) {
-      header("location: view.php?idp='.$idorder'");
+      header("location: view.php?idp=$idorder");
    } else {
       echo '
       <script>alert("Gagal Menghapus Produk Pesanan");
-      window.location.href = "view.php?idp='.$idorder.'";
+      window.location.href = "view.php?idp=$idorder";
       </script>   
       ';
    }
