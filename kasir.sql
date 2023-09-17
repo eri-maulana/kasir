@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Sep 2023 pada 05.47
+-- Waktu pembuatan: 17 Sep 2023 pada 04.56
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -40,8 +40,15 @@ CREATE TABLE `detailpesanan` (
 
 INSERT INTO `detailpesanan` (`iddetailpesanan`, `idpesanan`, `idproduk`, `qty`) VALUES
 (2, 3, 3, 10),
-(18, 6, 4, 1),
-(21, 4, 6, 1);
+(33, 8, 11, 1),
+(34, 8, 13, 1),
+(35, 9, 12, 5),
+(36, 9, 12, 5),
+(37, 9, 12, 5),
+(38, 10, 11, 10),
+(39, 10, 12, 10),
+(40, 10, 13, 10),
+(41, 10, 14, 10);
 
 -- --------------------------------------------------------
 
@@ -61,7 +68,15 @@ CREATE TABLE `masuk` (
 --
 
 INSERT INTO `masuk` (`idmasuk`, `idproduk`, `qty`, `tanggalmasuk`) VALUES
-(1, 5, 6, '2023-09-15 02:20:18');
+(1, 5, 6, '2023-09-15 02:20:18'),
+(2, 6, 100, '2023-09-16 13:08:15'),
+(3, 4, 150, '2023-09-16 14:08:05'),
+(6, 4, 1000, '2023-09-17 01:50:28'),
+(10, 4, 100, '2023-09-17 01:54:56'),
+(11, 11, 100, '2023-09-17 02:46:22'),
+(12, 12, 90, '2023-09-17 02:46:30'),
+(13, 13, 80, '2023-09-17 02:46:37'),
+(14, 14, 70, '2023-09-17 02:46:43');
 
 -- --------------------------------------------------------
 
@@ -81,9 +96,9 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`idpelanggan`, `namapelanggan`, `notelp`, `alamat`) VALUES
-(2, 'Eri', '083242347', 'Sukabumi'),
-(3, 'Maulana', '0823423483', 'Indonesia'),
-(4, 'Eri Maulana', '0823487234', 'Sukabumi, Indonesia');
+(6, 'Eri', '082323232323', 'Sukabumi'),
+(7, 'Maulana', '082121131538', 'Indonesia'),
+(8, 'Eri Maulana', '085724175825', 'Sukabumi, Indonesia');
 
 -- --------------------------------------------------------
 
@@ -103,8 +118,9 @@ CREATE TABLE `pesanan` (
 --
 
 INSERT INTO `pesanan` (`idpesanan`, `tanggal`, `idpelanggan`, `idproduk`) VALUES
-(4, '2023-09-14 03:16:13', 3, 0),
-(6, '2023-09-14 14:04:59', 4, 0);
+(8, '2023-09-17 02:52:08', 6, 0),
+(9, '2023-09-17 02:52:42', 7, 0),
+(10, '2023-09-17 02:52:56', 8, 0);
 
 -- --------------------------------------------------------
 
@@ -125,10 +141,10 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`idproduk`, `namabarang`, `deskripsi`, `harga`, `stock`) VALUES
-(2, 'Buku', 'Alat Tulis', 5000, 61),
-(4, 'Mouse', 'Perangkat Komputer', 150000, 20),
-(5, 'Keyboard', 'Perangkat Komputer', 300000, 17),
-(6, 'Penghapus', 'Alat Tulis', 1000, 100);
+(11, 'Buku ', 'bindex', 35000, 89),
+(12, 'Buku ', 'buku gambar', 20000, 65),
+(13, 'Pensil', '2b', 5000, 69),
+(14, 'Pensil', 'joyko', 5000, 60);
 
 -- --------------------------------------------------------
 
@@ -147,7 +163,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`iduser`, `username`, `password`) VALUES
-(1, 'eri', 'eri');
+(1, 'eri', 'eri'),
+(2, 'admin', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -197,37 +214,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `detailpesanan`
 --
 ALTER TABLE `detailpesanan`
-  MODIFY `iddetailpesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `iddetailpesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT untuk tabel `masuk`
 --
 ALTER TABLE `masuk`
-  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `idpelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idpelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `idpesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idpesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idproduk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

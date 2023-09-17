@@ -1,14 +1,14 @@
 <?php
-   require 'ceklogin.php';
+require 'ceklogin.php';
 
-   if(isset($_GET['idp'])){
-      $idp = $_GET['idp'];
-      $ambilnamapelanggan = mysqli_query($c, "SELECT * FROM pesanan p, pelanggan pl WHERE p.idpelanggan=pl.idpelanggan AND p.idpesanan='$idp'");
-      $np = mysqli_fetch_array($ambilnamapelanggan);
-      $namapel = $np['namapelanggan'];
-   } else {
-      header('location: index.php');
-   }
+if (isset($_GET['idp'])) {
+   $idp = $_GET['idp'];
+   $ambilnamapelanggan = mysqli_query($c, "SELECT * FROM pesanan p, pelanggan pl WHERE p.idpelanggan=pl.idpelanggan AND p.idpesanan='$idp'");
+   $np = mysqli_fetch_array($ambilnamapelanggan);
+   $namapel = $np['namapelanggan'];
+} else {
+   header('location: index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,9 +28,7 @@
 
    <!-- Google Fonts -->
    <link href="https://fonts.gstatic.com" rel="preconnect">
-   <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
    <!-- Vendor CSS Files -->
    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -126,11 +124,11 @@
                <div class="card">
                   <div class="card-body">
                      <h5 class="card-title">Detail Pesanan</h5>
-                     <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
+                     <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Tambah Produk Pesanan
                      </button>
-                     <button disabled="disabled" class="btn btn-secondary mb-3">Pesanan : <?=$idp;?> - <?=$namapel;?>
+                     <button disabled="disabled" class="btn btn-secondary mb-3">Pesanan : <?= $idp; ?> -
+                        <?= $namapel; ?>
                      </button>
 
                      <!-- Table with stripped rows -->
@@ -148,103 +146,98 @@
                         <tbody>
 
                            <?php
-                              $i = 1;
-                              $ambildata = mysqli_query($c, "SELECT * FROM detailpesanan p, produk pr WHERE p.idproduk = pr.idproduk AND idpesanan='$idp'");
-                              while($baris = mysqli_fetch_array($ambildata)){
-                                 $idpr = $baris['idproduk'];
-                                 $iddp = $baris['iddetailpesanan'];
-                                 $namabarang = $baris['namabarang'];
-                                 $harga = $baris['harga'];
-                                 $qty = $baris['qty'];
-                                 $subtotal = $qty * $harga
-                              
+                           $i = 1;
+                           $ambildata = mysqli_query($c, "SELECT * FROM detailpesanan p, produk pr WHERE p.idproduk = pr.idproduk AND idpesanan='$idp'");
+                           while ($baris = mysqli_fetch_array($ambildata)) {
+                              $idpr = $baris['idproduk'];
+                              $iddp = $baris['iddetailpesanan'];
+                              $namabarang = $baris['namabarang'];
+                              $harga = $baris['harga'];
+                              $qty = $baris['qty'];
+                              $subtotal = $qty * $harga
+
                            ?>
-                           <tr>
-                              <td><?=$i;?></td>
-                              <td><?=$namabarang;?></td>
-                              <td>Rp. <?=number_format($harga);?></td>
-                              <td><?=number_format($qty);?></td>
-                              <td>Rp. <?=number_format($subtotal);?></td>
-                              <td>
-                                 <!-- Button trigger modal Ubah -->
-                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal1<?=$idp;?>">
-                                    Ubah
-                                 </button>
-                                 <!-- Button trigger modal Hapus -->
-                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal2<?=$idp;?>">
-                                    Hapus
-                                 </button>
-                              </td>
-                           </tr>
+                              <tr>
+                                 <td><?= $i; ?></td>
+                                 <td><?= $namabarang; ?></td>
+                                 <td>Rp. <?= number_format($harga); ?></td>
+                                 <td><?= number_format($qty); ?></td>
+                                 <td>Rp. <?= number_format($subtotal); ?></td>
+                                 <td>
+                                    <!-- Button trigger modal Ubah -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal1<?= $idpr; ?>">
+                                       Ubah
+                                    </button>
+                                    <!-- Button trigger modal Hapus -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2<?= $idpr; ?>">
+                                       Hapus
+                                    </button>
+                                 </td>
+                              </tr>
 
-                           <!-- Modal Ubah-->
-                           <div class="modal fade" id="exampleModal1<?=$idp;?>" tabindex="-1"
-                              aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Produk Pesanan</h1>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                    </div>
-                                    <form method="post">
-                                       <div class="modal-body">
-                                          <input type="hidden" name="idp" value="<?=$idp;?>">
-                                          <div class="form-floating mt-2">
-                                             <input type="number" class="form-control" name="qty" id="floatingInput"
-                                                placeholder="Jumlah" value="<?=$qty;?>">
-                                             <label for="floatingInput">Jumlah</label>
+                              <!-- Modal Ubah-->
+                              <div class="modal fade" id="exampleModal1<?= $idpr; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Produk Pesanan</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form method="post">
+                                          <div class="modal-body">
+                                             <input type="hidden" name="iddp" value="<?= $iddp; ?>">
+                                             <input type="hidden" name="idpr" value="<?= $idpr; ?>">
+                                             <input type="hidden" name="idp" value="<?= $idp; ?>">
+                                             <div class="form-floating mt-2">
+                                                <input type="text" class="form-control" name="namabarang" id="floatingInput" value="<?= $namabarang; ?>" disabled>
+                                                <label for="floatingInput">Nama Barang Pesanan</label>
+                                             </div>
+                                             <div class="form-floating mt-2">
+                                                <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Jumlah" value="<?= $qty; ?>">
+                                                <label for="floatingInput">Jumlah</label>
+                                             </div>
+
                                           </div>
-
-                                       </div>
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary"
-                                             data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" name="ubahdetailpesanan"
-                                             class="btn btn-warning">Ubah</button>
-                                       </div>
-                                    </form>
-                                 </div>
-                              </div>
-                           </div>
-
-                           <!-- Modal Hapus-->
-                           <div class="modal fade" id="exampleModal2<?=$idp;?>" tabindex="-1"
-                              aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus</h1>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="ubahdetailpesanan" class="btn btn-warning">Ubah</button>
+                                          </div>
+                                       </form>
                                     </div>
-                                    <form method="post">
-                                       <div class="modal-body">
-                                          <input type="hidden" name="idp" value="<?=$iddp;?>">
-                                          <input type="hidden" name="idpr" value="<?=$idpr;?>">
-                                          <input type="hidden" name="idorder" value="<?=$idp;?>">
-                                          <h2 class="text-center">Apakah kamu yakin ingin menghapus <br>
-                                             <strong><?=$namabarang;?></strong> ??
-                                          </h2>
-                                       </div>
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary"
-                                             data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" name="hapusprodukpesanan"
-                                             class="btn btn-danger">Hapus</button>
-                                       </div>
-                                    </form>
                                  </div>
                               </div>
-                           </div>
+
+                              <!-- Modal Hapus-->
+                              <div class="modal fade" id="exampleModal2<?= $idpr; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form method="post">
+                                          <div class="modal-body">
+                                             <input type="hidden" name="idp" value="<?= $iddp; ?>">
+                                             <input type="hidden" name="idpr" value="<?= $idpr; ?>">
+                                             <input type="hidden" name="idorder" value="<?= $idp; ?>">
+                                             <h2 class="text-center">Apakah kamu yakin ingin menghapus <br>
+                                                <strong><?= $namabarang; ?></strong> ??
+                                             </h2>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="hapusprodukpesanan" class="btn btn-danger">Hapus</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
 
 
                            <?php
                               $i++;
-                              }
-                              ?>
+                           }
+                           ?>
 
                         </tbody>
                      </table>
@@ -279,8 +272,7 @@
       </div>
    </footer><!-- End Footer -->
 
-   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-         class="bi bi-arrow-up-short"></i></a>
+   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
    <!-- Vendor JS Files -->
    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -309,28 +301,27 @@
                <select class="form-select" aria-label="Default select example" name="idproduk">
                   <option selected>Pilih Produk...</option>
                   <?php
-                     $ambilproduk = mysqli_query($c,"SELECT * FROM produk WHERE idproduk NOT IN (SELECT idproduk FROM detailpesanan WHERE idpesanan ='$idp') ");
-                  
-                     while($baris = mysqli_fetch_array($ambilproduk)){
-                        $idproduk = $baris['idproduk'];
-                        $namabarang = $baris['namabarang'];
-                        $stock = $baris['stock'];
-                        $deskripsi = $baris['deskripsi'];
+                  $ambilproduk = mysqli_query($c, "SELECT * FROM produk WHERE idproduk NOT IN (SELECT idproduk FROM detailpesanan WHERE idpesanan ='$idp') ");
+
+                  while ($baris = mysqli_fetch_array($ambilproduk)) {
+                     $idproduk = $baris['idproduk'];
+                     $namabarang = $baris['namabarang'];
+                     $stock = $baris['stock'];
+                     $deskripsi = $baris['deskripsi'];
                   ?>
 
-                  <option value="<?=$idproduk;?>"> <?=$namabarang;?> - <?=$deskripsi;?> | (Stock : <?=$stock;?>)
-                  </option>
+                     <option value="<?= $idproduk; ?>"> <?= $namabarang; ?> - <?= $deskripsi; ?> | (Stock : <?= $stock; ?>)
+                     </option>
 
                   <?php
-                     }
+                  }
                   ?>
                </select>
                <div class="form-floating mt-2">
-                  <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Jumlah" required
-                     min="1">
+                  <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Jumlah" required min="1">
                   <label for="floatingInput">Jumlah</label>
                </div>
-               <input type="hidden" name="idp" value="<?=$idp;?>">
+               <input type="hidden" name="idp" value="<?= $idp; ?>">
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

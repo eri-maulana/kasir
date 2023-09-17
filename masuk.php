@@ -1,8 +1,8 @@
 <?php
-   require 'ceklogin.php';
-   
-   $ambildatamasuk = mysqli_query($c, "SELECT * FROM masuk");
-   $jumlahmasuk = mysqli_num_rows($ambildatamasuk);
+require 'ceklogin.php';
+
+$ambildatamasuk = mysqli_query($c, "SELECT * FROM masuk");
+$jumlahmasuk = mysqli_num_rows($ambildatamasuk);
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +22,7 @@
 
    <!-- Google Fonts -->
    <link href="https://fonts.gstatic.com" rel="preconnect">
-   <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
    <!-- Vendor CSS Files -->
    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -127,12 +125,11 @@
                   <div class="card-body">
                      <h5 class="card-title">Data Barang Masuk</h5>
                      <!-- Button trigger modal -->
-                     <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
+                     <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Tambah Barang Masuk
                      </button>
                      <button disabled="disabled" class="btn btn-secondary mb-3">Jumlah Barang Masuk :
-                        <?=$jumlahmasuk ;?>
+                        <?= $jumlahmasuk; ?>
                      </button>
 
                      <!-- Table with stripped rows -->
@@ -141,7 +138,6 @@
                            <tr>
                               <th scope="col">No</th>
                               <th scope="col">Nama Barang</th>
-                              <th scope="col">Deskripsi</th>
                               <th scope="col">Jumlah</th>
                               <th scope="col">Tanggal</th>
                               <th scope="col">Aksi</th>
@@ -149,111 +145,93 @@
                         </thead>
                         <tbody>
                            <?php
-                              $i = 1;
-                              $ambildata = mysqli_query($c, "SELECT * FROM masuk m, produk p WHERE m.idproduk = p.idproduk");
-                              while($baris = mysqli_fetch_array($ambildata)){
-                                 $idproduk = $baris['idproduk'];
-                                 $namabarang = $baris['namabarang'];
-                                 $deskripsi = $baris['deskripsi'];
-                                 $qty = $baris['qty'];
-                                 $tanggal = $baris['tanggalmasuk'];
+                           $i = 1;
+                           $ambildata = mysqli_query($c, "SELECT * FROM masuk m, produk p WHERE m.idproduk = p.idproduk");
+                           while ($baris = mysqli_fetch_array($ambildata)) {
+                              $idmasuk = $baris['idmasuk'];
+                              $idproduk = $baris['idproduk'];
+                              $namabarang = $baris['namabarang'];
+                              $deskripsi = $baris['deskripsi'];
+                              $qty = $baris['qty'];
+                              $tanggal = $baris['tanggalmasuk'];
                            ?>
-                           <tr>
-                              <td><?=$i;?></td>
-                              <td><?=$namabarang;?></td>
-                              <td><?=$deskripsi;?></td>
-                              <td><?=$qty;?></td>
-                              <td><?=$tanggal;?></td>
-                              <td>
-                                 <!-- Button trigger modal -->
-                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal1<?=$idproduk;?>">
-                                    Ubah
-                                 </button>
-                                 <!-- Button trigger modal -->
-                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal2<?=$idproduk;?>">
-                                    Hapus
-                                 </button>
-                              </td>
-                           </tr>
+                              <tr>
+                                 <td><?= $i; ?></td>
+                                 <td><?= $namabarang; ?> : <?= $deskripsi; ?></td>
+                                 <td><?= $qty; ?></td>
+                                 <td><?= $tanggal; ?></td>
+                                 <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal1<?= $idmasuk; ?>">
+                                       Ubah
+                                    </button>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2<?= $idmasuk; ?>">
+                                       Hapus
+                                    </button>
+                                 </td>
+                              </tr>
 
-                           <!-- Modal Ubah-->
-                           <div class="modal fade" id="exampleModal1<?=$idproduk;?>" tabindex="-1"
-                              aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah</h1>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
+                              <!-- Modal Ubah-->
+                              <div class="modal fade" id="exampleModal1<?= $idmasuk; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form method="post">
+                                          <div class="modal-body">
+                                             <input type="hidden" name="idmasuk" value="<?= $idmasuk; ?>">
+                                             <input type="hidden" name="idp" value="<?= $idproduk; ?>">
+                                             <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" name="namabarang" id="floatingInput" placeholder="Nama Barang" value="<?= $namabarang; ?> : <?= $deskripsi; ?>" disabled>
+                                                <label for="floatingInput">Nama Barang</label>
+                                             </div>
+                                             <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Qty" value="<?= $qty; ?>">
+                                                <label for="floatingInput">Qty</label>
+                                             </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="ubahbarangmasuk" class="btn btn-warning">Ubah</button>
+                                          </div>
+                                       </form>
                                     </div>
-                                    <form method="post">
-                                       <div class="modal-body">
-                                          <input type="hidden" name="idproduk" value="<?=$idproduk;?>">
-                                          <div class="form-floating mb-3">
-                                             <input type="text" class="form-control" name="namabarang"
-                                                id="floatingInput" placeholder="Nama Barang" value="<?=$namabarang;?>">
-                                             <label for="floatingInput">Nama Barang</label>
-                                          </div>
-                                          <div class="form-floating mb-3">
-                                             <input type="text" class="form-control" name="deskripsi" id="floatingInput"
-                                                placeholder="Deskripsi" value="<?=$deskripsi;?>">
-                                             <label for="floatingInput">Deskripsi</label>
-                                          </div>
-                                          <div class="form-floating mb-3">
-                                             <input type="number" class="form-control" name="harga" id="floatingInput"
-                                                placeholder="Harga" value="<?=$harga;?>">
-                                             <label for="floatingInput">Harga</label>
-                                          </div>
-                                          <div class="form-floating mb-3">
-                                             <input type="number" class="form-control" name="stock" id="floatingInput"
-                                                placeholder="Stock" value="<?=$stock;?>">
-                                             <label for="floatingInput">Stock</label>
-                                          </div>
-                                       </div>
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary"
-                                             data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" name="ubah" class="btn btn-warning">Ubah</button>
-                                       </div>
-                                    </form>
                                  </div>
                               </div>
-                           </div>
 
-                           <!-- Modal Hapus-->
-                           <div class="modal fade" id="exampleModal2<?=$idproduk;?>" tabindex="-1"
-                              aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus</h1>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
+                              <!-- Modal Hapus-->
+                              <div class="modal fade" id="exampleModal2<?= $idmasuk; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form method="post">
+                                          <div class="modal-body">
+                                             <input type="hidden" name="idp" value="<?= $idproduk; ?>">
+                                             <input type="hidden" name="idmasuk" value="<?= $idmasuk; ?>">
+                                             <h2 class="text-center">Apakah kamu yakin ingin menghapus barang masuk <br>
+                                                <strong><?= $namabarang; ?> - <?= $qty; ?></strong> ??
+                                             </h2>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="hapusbarangmasuk" class="btn btn-danger">Hapus</button>
+                                          </div>
+                                       </form>
                                     </div>
-                                    <form method="post">
-                                       <div class="modal-body">
-                                          <input type="hidden" name="idproduk" value="<?=$idproduk;?>">
-                                          <h2 class="text-center">Apakah kamu yakin ingin menghapus <br>
-                                             <strong><?=$namabarang;?></strong> ??
-                                          </h2>
-                                       </div>
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary"
-                                             data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
-                                       </div>
-                                    </form>
                                  </div>
                               </div>
-                           </div>
 
 
                            <?php
                               $i++;
-                              }
-                              ?>
+                           }
+                           ?>
                         </tbody>
                      </table>
                      <!-- End Table with stripped rows -->
@@ -288,8 +266,7 @@
       </div>
    </footer><!-- End Footer -->
 
-   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-         class="bi bi-arrow-up-short"></i></a>
+   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
    <!-- Vendor JS Files -->
    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -311,33 +288,32 @@
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Produk Pesanan Baru</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Barang Masuk Baru</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <form method="post">
             <div class="modal-body">
                <select class="form-select" aria-label="Default select example" name="idproduk">
-                  <option selected>Pilih Produk...</option>
+                  <option selected>Pilih Barang...</option>
                   <?php
-                     $ambilproduk = mysqli_query($c,"SELECT * FROM produk");
-                  
-                     while($baris = mysqli_fetch_array($ambilproduk)){
-                        $idproduk = $baris['idproduk'];
-                        $namabarang = $baris['namabarang'];
-                        $stock = $baris['stock'];
-                        $deskripsi = $baris['deskripsi'];
+                  $ambilproduk = mysqli_query($c, "SELECT * FROM produk");
+
+                  while ($baris = mysqli_fetch_array($ambilproduk)) {
+                     $idproduk = $baris['idproduk'];
+                     $namabarang = $baris['namabarang'];
+                     $stock = $baris['stock'];
+                     $deskripsi = $baris['deskripsi'];
                   ?>
 
-                  <option value="<?=$idproduk;?>"> <?=$namabarang;?> - <?=$deskripsi;?> | (Stock : <?=$stock;?>)
-                  </option>
+                     <option value="<?= $idproduk; ?>"> <?= $namabarang; ?> - <?= $deskripsi; ?> | (Stock : <?= $stock; ?>)
+                     </option>
 
                   <?php
-                     }
+                  }
                   ?>
                </select>
                <div class="form-floating mt-2">
-                  <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Jumlah" required
-                     min="1">
+                  <input type="number" class="form-control" name="qty" id="floatingInput" placeholder="Jumlah" required min="1">
                   <label for="floatingInput">Jumlah</label>
                </div>
             </div>
